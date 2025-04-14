@@ -14,7 +14,24 @@ function App() {
   }
 
     useEffect(()=>{
-      getTodos()
+      const channel = supabase
+    .channel('realtime:clients')
+    .on(
+      'postgres_changes',
+      {
+        event: 'INSERT',
+        schema: 'public',
+        table: 'clients',
+      },
+      (payload) => {
+        console.log('🟢 New client inserted:', payload.new)
+      }
+    )
+    .subscribe()
+
+  return () => {
+    supabase.removeChannel(channel)
+  }
     },[])
 
 
