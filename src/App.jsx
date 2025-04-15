@@ -15,7 +15,7 @@ function App() {
 
     useEffect(()=>{
       const channel = supabase
-    .channel('realtime:clients')
+    .channel('test_channel')
     .on(
       'postgres_changes',
       {
